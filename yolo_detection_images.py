@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 import pyttsx3
-from gtts import gTTS
+# from gtts import gTTS
 import os 
 
 import argparse
