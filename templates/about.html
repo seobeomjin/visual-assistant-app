@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="px-3 py-3 text-center">
+            <h1 class="display-4">About this project</h1>
+            <div class="my-2">
+                <img style="max-width: 600px; width: 100%;" src="{{ url_for('static', filename='img/paris_.jpg') }}" alt="">
+            </div>
+            <p class="lead">해당 사이트는 객체 인식에 대한 Demo page입니다. <br> <a
+                    href="https://github.com/seobeomjin/flask-mnist-8"> View on GitHub</a></p>
+            <p>
+                This part is still working.
+            </p>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

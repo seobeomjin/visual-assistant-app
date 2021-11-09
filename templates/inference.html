@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <p class="lead">Output Image</p>
+    <img src="{{image}}"      >
+    <!-- <img src="{{image}}"> -->
+    <h5 class="lead">{{output}}</h5>
+    <!-- <p class="mt-5">Confidence: <strong>{{confidence}}%</strong></p> -->
+    <p class="mt-5"> <a href="/">Try again</a></p>
+</div>
+{% endblock %}
+<!-- <form class="input" id="voice-form" method="post"></form>
+    <div class="field">
+        <label for="voices">Choose a Voice Assistant</label>
+        <select name="voices" id="voices">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+    <button>
+          Say it!
+    </button>
+</form>
+    <audio controls>
+        <source src="{{ sayit(text=output)}}" type="auido/wav">
+    </audio>
+<audio src="{{ sayit(text='Hello from Flask !')}}"></audio> -->

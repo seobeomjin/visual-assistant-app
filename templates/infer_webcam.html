@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <p class="lead">Output Image</p>
+    <img src="{{image}}"      >
+    <h5 class="lead">{{output}}</h5>
+    <p class="mt-5"> <a href="/">Try again</a></p>
+</div> -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h3 class="mt-5">Live Detection</h3>
+            <img src="{{ url_for('video') }}" width="50%">
+        </div>
+    </div>
+</div>
+{% endblock %}
