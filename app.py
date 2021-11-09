@@ -78,11 +78,12 @@ def calculate_location_info(info_dict, image_size):
     return info_dict
         
 
-def filteringObjects(args, info_dict) : 
+def filteringObjects( info_dict) : 
     # low confidence OR too small image 
     before_filter = len(info_dict)
     for item in info_dict[:] : 
-        if item['confidence'] < args.threshold or item['size ratio'] < 0.1 : 
+        # if item['confidence'] < args.threshold or item['size ratio'] < 0.1 : 
+        if item['confidence'] < 0.53 or item['size ratio'] < 0.1 : 
             info_dict.remove(item)
     # print(f"{before_filter-len(info_dict)} objects were deleted! ({before_filter}->{len(info_dict)})")
     return info_dict
@@ -135,12 +136,12 @@ def text_to_speech(text, gender):
     engine.say(text)
     engine.runAndWait()
 
-def gen_frames(args):
+def gen_frames():
     confidenceThreshold = 0.5
     NMSThreshold = 0.3
 
-    modelConfiguration = args.cfg #'cfg/yolov3.cfg'
-    modelWeights = args.model #'yolov3.weights'
+    modelConfiguration = 'cfg/yolov3-tiny.cfg' #if args is None else args.cfg
+    modelWeights = 'yolov3-tiny.weights' #if args is None else args.model #'yolov3.weights'
 
     labelsPath = 'coco.names'
     labels = open(labelsPath).read().strip().split('\n')
@@ -252,7 +253,7 @@ def gen_frames(args):
                 image_size = outputs['image_size']
                 info_dict = calculate_location_info(info_dict, image_size)
                 info_dict = calculate_object_size(info_dict, image_size)
-                info_dict = filteringObjects(args, info_dict)
+                info_dict = filteringObjects(info_dict)
                 info_dict, counter = numberingObjects(info_dict)
                 info_text = refined_text(info_dict)
             except : 
@@ -280,7 +281,7 @@ def index():
 
 @app.route('/video')
 def video(): 
-    return Response(gen_frames(args), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__" : 
 
