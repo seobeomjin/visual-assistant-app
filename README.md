@@ -1,5 +1,10 @@
-# YOLO-v3-Object-Detection
-YOLO - You Only Look Once
-This repository has the code for YOLO v3 Object detection, and is capable of fast object detection. Input can be given through images, videos and webcam input feed.
+##  Visual Assistant App 
 
-View a demo of the project at: https://www.youtube.com/watch?v=iT1yJTk77CQ
+This repository has the code for a visual assistant app.<br>
+It is capable of real time object detection and able to offer informative audio about the surrounding environment.<br>
+<br> 
+You can try demo via below page. <br>
+
+
+
+
