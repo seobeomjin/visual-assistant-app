@@ -10,6 +10,7 @@ MarkupSafe==1.1.1
 # mkl_random==1.0.1
 # mkl_service==2.4.0
 numpy==1.19.1
+opencv-python==4.5.4.58
 Pillow==8.4.0
 # pypiwin32==223
 pyttsx3==2.90
