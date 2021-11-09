@@ -5,13 +5,12 @@ Flask==1.1.2
 gunicorn==20.1.0
 itsdangerous==1.1.0
 Jinja2==2.11.2
-libgl1-mesa-glx==21.2.2
 MarkupSafe==1.1.1
 # mkl_fft==1.0.6
 # mkl_random==1.0.1
 # mkl_service==2.4.0
 numpy==1.21.2
-opencv-python==4.5.4.58
+opencv-python-headless==4.5.4.58
 Pillow==8.4.0
 # pypiwin32==223
 pyttsx3==2.90
