@@ -152,7 +152,7 @@ def gen_frames():
     net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 
     outputLayer = net.getLayerNames()
-    outputLayer = [outputLayer[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+    outputLayer = [outputLayer[i - 1] for i in net.getUnconnectedOutLayers()]
 
     st_time = time.time()
 
