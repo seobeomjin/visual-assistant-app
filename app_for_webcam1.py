@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 from flask import Flask, render_template,Response 
 import cv2 
 
@@ -80,11 +78,11 @@ def calculate_location_info(info_dict, image_size):
     return info_dict
         
 
-def filteringObjects(info_dict) : 
+def filteringObjects(args, info_dict) : 
     # low confidence OR too small image 
     before_filter = len(info_dict)
     for item in info_dict[:] : 
-        if item['confidence'] < 0.55 or item['size ratio'] < 0.1 : 
+        if item['confidence'] < args.threshold or item['size ratio'] < 0.1 : 
             info_dict.remove(item)
     # print(f"{before_filter-len(info_dict)} objects were deleted! ({before_filter}->{len(info_dict)})")
     return info_dict
@@ -95,12 +93,12 @@ def refined_text(info_dict) :
     for item in info_dict :
         if item['location'] == 'middle' : 
             if item['close'] : 
-                info.append(f"{item['Label']} is in front of you. caution! It's close")
+                info.append(f"{item['Label']} is in front of you. It's close, so be careful.")
             else : 
                 info.append(f"{item['Label']} is in front of you.")
         else : 
             if item['close'] : 
-                info.append(f"{item['Label']} is on your {item['location']}, caution! It's close")
+                info.append(f"{item['Label']} is on your {item['location']}, It's close, so be careful.")
             else : 
                 info.append(f"{item['Label']} is on your {item['location']}")
 
@@ -137,12 +135,12 @@ def text_to_speech(text, gender):
     engine.say(text)
     engine.runAndWait()
 
-def gen_frames():
+def gen_frames(args):
     confidenceThreshold = 0.5
     NMSThreshold = 0.3
 
-    modelConfiguration = 'cfg/yolov3-tiny.cfg' #args.cfg #'cfg/yolov3.cfg'
-    modelWeights = 'yolov3-tiny.weights' #args.model #'yolov3.weights'
+    modelConfiguration = args.cfg #'cfg/yolov3.cfg'
+    modelWeights = args.model #'yolov3.weights'
 
     labelsPath = 'coco.names'
     labels = open(labelsPath).read().strip().split('\n')
@@ -153,8 +151,6 @@ def gen_frames():
     net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 
     outputLayer = net.getLayerNames()
-    # print("####output Layer : ",outputLayer)
-    # print("#### net.getUnconnectedOutLayers() : ",net.getUnconnectedOutLayers())
     outputLayer = [outputLayer[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
     st_time = time.time()
@@ -229,8 +225,8 @@ def gen_frames():
         fps = int(fps)
 
         # print(time.time())
-        if int((time.time() - st_time ) % 10) == 0 : 
-            # print(f"current FPS : {fps}")
+        if int((time.time() - st_time ) % 15) == 0 : 
+            print(f"current FPS : {fps}")
             if(len(detectionNMS) > 0):
                 outputs['detections'] = {}
                 outputs['detections']['labels'] = []
@@ -256,7 +252,7 @@ def gen_frames():
                 image_size = outputs['image_size']
                 info_dict = calculate_location_info(info_dict, image_size)
                 info_dict = calculate_object_size(info_dict, image_size)
-                info_dict = filteringObjects(info_dict)
+                info_dict = filteringObjects(args, info_dict)
                 info_dict, counter = numberingObjects(info_dict)
                 info_text = refined_text(info_dict)
             except : 
@@ -271,7 +267,7 @@ def gen_frames():
         yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-
+            
 
         # cv2.imshow('Output', frame)
         # if(cv2.waitKey(1) & 0xFF == ord('q')):
@@ -284,36 +280,18 @@ def index():
 
 @app.route('/video')
 def video(): 
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(args), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# @app.route('/text')
-# def gen_text():
-#     return Response()
-=======
-from flask import Flask, jsonify, request 
-from yolo_detection_images import detectObjects
+if __name__ == "__main__" : 
 
-app = Flask(__name__)
->>>>>>> parent of 54779fe (app name change)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', type=str, default='yolov3-tiny.weights', 
+                    help='choose a model which will use')
+    parser.add_argument('--cfg', type=str, default='cfg/yolov3-tiny.cfg',
+                    help='type a ppropriate cfg file for a model')
+    parser.add_argument('--threshold', type=float, default='0.6',
+                    help='confidence threshold')
 
-@app.route('/myapp/detectObjects') 
-def detect():
-    img = request.args['Image']
-    img_path = 'images/' + img 
-    results = detectObjects(img_path)
-    return jsonify(results)
-
-app.run()
-
-<<<<<<< HEAD
     args = parser.parse_args()
     
-    # app.run(debug=True)
-
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
-=======
-# have to give args to http address 
-# http://127.0.0.1:5000/myapp/detectObjects?Image=person.jpg
-# it prints out json format output 
->>>>>>> parent of 54779fe (app name change)
+    app.run(debug=True)
