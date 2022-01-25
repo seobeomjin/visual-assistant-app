@@ -85,12 +85,12 @@ def refined_text(info_dict) :
     for item in info_dict :
         if item['location'] == 'middle' : 
             if item['close'] : 
-                info.append(f"{item['Label']} is in front of you. It's close, so be careful.")
+                info.append(f"{item['Label']} is in front of you. caution! It's close.")
             else : 
                 info.append(f"{item['Label']} is in front of you.")
         else : 
             if item['close'] : 
-                info.append(f"{item['Label']} is on your {item['location']}, It's close, so be careful.")
+                info.append(f"{item['Label']} is on your {item['location']}, caution! It's close.")
             else : 
                 info.append(f"{item['Label']} is on your {item['location']}")
 
